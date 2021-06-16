@@ -1,4 +1,4 @@
-# About my Pet
+# Color My Views
 
 <p>Terceito projeto desenvolvido na Dev Venture | 2° Edição.</p>
 
