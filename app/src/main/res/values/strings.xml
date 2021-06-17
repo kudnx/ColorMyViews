@@ -2,4 +2,13 @@
     <string name="app_name">ColorMyViews</string>
     <string name="box_one">Box One</string>
     <string name="box_two">Box Two</string>
+    <string name="box_three">Box Three</string>
+    <string name="box_four">Box Four</string>
+    <string name="box_five">Box Five</string>
+    <string name="titulo">Titulo</string>
+    <string name="subtitulo">Subtitulo</string>
+    <string name="button">Botão</string>
+    <string name="yellow">Yellow</string>
+    <string name="red">Red</string>
+    <string name="green">Green</string>
 </resources>
