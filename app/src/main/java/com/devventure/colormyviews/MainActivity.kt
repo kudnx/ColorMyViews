@@ -8,8 +8,8 @@ import androidx.appcompat.app.AppCompatActivity
 import com.devventure.colormyviews.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {
-
-    private var color = R.color.grey
+    
+    private var pincelColor = R.color.grey
     private lateinit var sharedPreferences : SharedPreferences
     private lateinit var binding: ActivityMainBinding
     private lateinit var editor : SharedPreferences.Editor
@@ -22,11 +22,13 @@ class MainActivity : AppCompatActivity() {
         sharedPreferences = getSharedPreferences("colors", Context.MODE_PRIVATE)
         editor = sharedPreferences.edit()
 
-        binding.boxOne.setBackgroundResource(getColorBox("boxOne"))
-        binding.boxTwo.setBackgroundResource(getColorBox("boxTwo"))
-        binding.boxThree.setBackgroundResource(getColorBox("boxThree"))
-        binding.boxFour.setBackgroundResource(getColorBox("boxFour"))
-        binding.boxFive.setBackgroundResource(getColorBox("boxFive"))
+        val boxes = arrayOf(binding.boxOne, binding.boxTwo, binding.boxThree,
+                            binding.boxFour, binding.boxFive)
+
+        for (box in boxes)
+        {
+            findViewById<View>(box.id).setBackgroundResource(getColorBox(box.id.toString()))
+        }
 
     }
 
@@ -37,43 +39,43 @@ class MainActivity : AppCompatActivity() {
 
     fun setColor(view: View) {
         when(view.id){
-            R.id.btn_red    ->  color = R.color.red
-            R.id.btn_yellow ->  color = R.color.yellow
-            R.id.btn_green  ->  color = R.color.green
+            R.id.btn_red    ->  pincelColor = R.color.red
+            R.id.btn_yellow ->  pincelColor = R.color.yellow
+            R.id.btn_green  ->  pincelColor = R.color.green
         }
     }
 
     fun colorBox(view: View) {
         when(view.id){
             R.id.boxOne -> {
-                binding.boxOne.setBackgroundResource(color)
-                editor.putInt("boxOne",   color)
+                binding.boxOne.setBackgroundResource(pincelColor)
+                editor.putInt(binding.boxOne.id.toString(),   pincelColor)
             }
 
             R.id.boxTwo -> {
-                binding.boxTwo.setBackgroundResource(color)
-                editor.putInt("boxTwo",   color)
+                binding.boxTwo.setBackgroundResource(pincelColor)
+                editor.putInt(binding.boxTwo.id.toString(),   pincelColor)
             }
 
             R.id.boxThree -> {
-                binding.boxThree.setBackgroundResource(color)
-                editor.putInt("boxThree", color)
+                binding.boxThree.setBackgroundResource(pincelColor)
+                editor.putInt(binding.boxThree.id.toString(), pincelColor)
             }
 
             R.id.boxFour -> {
-                binding.boxFour.setBackgroundResource(color)
-                editor.putInt("boxFour",  color)
+                binding.boxFour.setBackgroundResource(pincelColor)
+                editor.putInt(binding.boxFour.id.toString(),  pincelColor)
             }
 
             R.id.boxFive -> {
-                binding.boxFive.setBackgroundResource(color)
-                editor.putInt("boxFive",  color)
+                binding.boxFive.setBackgroundResource(pincelColor)
+                editor.putInt(binding.boxFive.id.toString(),  pincelColor)
             }
         }
     }
 
-    private fun getColorBox(box : String) : Int{
-        return sharedPreferences.getInt(box, R.color.grey)
+    private fun getColorBox(idBox : String) : Int{
+        return sharedPreferences.getInt(idBox, R.color.grey)
     }
 
 }
