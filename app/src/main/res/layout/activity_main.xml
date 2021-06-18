@@ -12,11 +12,13 @@
         android:layout_height="wrap_content"
         android:layout_margin="10dp"
         android:text="@string/box_one"
+        android:onClick="colorBox"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.003" />
+        app:layout_constraintVertical_bias="0.003"
+        android:layout_width="match_parent" />
 
     <TextView
         android:id="@+id/boxTwo"
@@ -25,6 +27,7 @@
         android:layout_height="0dp"
         android:layout_marginTop="@dimen/margin_small"
         android:text="@string/box_two"
+        android:onClick="colorBox"
         app:layout_constraintBottom_toTopOf="@+id/guideline2"
         app:layout_constraintEnd_toStartOf="@+id/guideline3"
         app:layout_constraintStart_toStartOf="@+id/boxOne"
@@ -38,6 +41,7 @@
         android:layout_marginStart="@dimen/margin_small"
         android:layout_marginEnd="@dimen/margin_small"
         android:text="@string/box_three"
+        android:onClick="colorBox"
         app:layout_constraintBottom_toTopOf="@+id/boxFour"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/boxTwo"
@@ -54,19 +58,21 @@
         android:layout_marginEnd="@dimen/margin_small"
         android:layout_marginBottom="@dimen/margin_small"
         android:text="@string/box_four"
-        app:layout_constraintBottom_toTopOf="@+id/textFive"
+        android:onClick="colorBox"
+        app:layout_constraintBottom_toTopOf="@+id/boxFive"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/boxTwo"
         app:layout_constraintTop_toBottomOf="@+id/boxThree" />
 
     <TextView
-        android:id="@+id/textFive"
+        android:id="@+id/boxFive"
         style="@style/whiteBox"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_marginStart="@dimen/margin_small"
         android:layout_marginEnd="@dimen/margin_small"
         android:text="@string/box_five"
+        android:onClick="colorBox"
         app:layout_constraintBottom_toBottomOf="@+id/boxTwo"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/boxTwo"
@@ -87,28 +93,30 @@
         app:layout_constraintGuide_percent="0.3" />
 
     <Button
-        android:id="@+id/btn_yellow"
+        android:id="@+id/btn_red"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/red"
         android:backgroundTint="@color/red"
         android:layout_marginBottom="@dimen/margin_small"
+        android:onClick="setColor"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/btn_red"
+        app:layout_constraintEnd_toStartOf="@+id/btn_yellow"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent" />
 
     <Button
-        android:id="@+id/btn_red"
+        android:id="@+id/btn_yellow"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/yellow"
         android:backgroundTint="@color/yellow"
         android:layout_marginBottom="@dimen/margin_small"
+        android:onClick="setColor"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/btn_green"
         app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toEndOf="@+id/btn_yellow" />
+        app:layout_constraintStart_toEndOf="@+id/btn_red" />
 
     <Button
         android:id="@+id/btn_green"
@@ -117,10 +125,11 @@
         android:text="@string/green"
         android:backgroundTint="@color/green"
         android:layout_marginBottom="@dimen/margin_small"
+        android:onClick="setColor"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toEndOf="@+id/btn_red" />
+        app:layout_constraintStart_toEndOf="@+id/btn_yellow" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
