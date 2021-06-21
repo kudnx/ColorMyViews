@@ -136,7 +136,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun storeScreenshot(bitmap: Bitmap, filename: String) {
-        var dirPath = Environment.getExternalStorageDirectory().absolutePath + "/Screenshots"
+        var dirPath = applicationContext.getExternalFilesDir(null).toString()
         val dir = File(dirPath)
         if (!dir.exists()) {
             dir.mkdirs()
