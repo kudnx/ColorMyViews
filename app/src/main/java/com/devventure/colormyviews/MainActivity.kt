@@ -12,20 +12,14 @@ import android.graphics.Color
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
-import android.os.Environment
-import android.provider.Settings
+import android.provider.MediaStore
 import android.view.View
 import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
-import androidx.core.content.FileProvider
 import com.devventure.colormyviews.databinding.ActivityMainBinding
-import java.io.File
-import java.io.FileOutputStream
-import java.lang.Exception
-import java.net.URI
 import java.util.*
 
 class MainActivity : AppCompatActivity() {
@@ -101,11 +95,26 @@ class MainActivity : AppCompatActivity() {
     }
 
     @RequiresApi(Build.VERSION_CODES.M)
-    fun shareScreenScreenshot(view: View) {
-        if (ContextCompat.checkSelfPermission(
-                this,
-                Manifest.permission.WRITE_EXTERNAL_STORAGE
-            ) == PackageManager.PERMISSION_DENIED) {
+    fun shareScreenScreenshot() {
+        var path = ""
+        if (checkAppPermissions()) {
+            val rootView = window.decorView.findViewById<View>(android.R.id.content)
+            val bitmap = takeScreenshot(rootView)
+            if (bitmap != null) {
+                path = storeScreenshot(bitmap)
+            }
+            shareScreenshot(path)
+        } else {
+            Toast.makeText(this, R.string.ask_permissions, Toast.LENGTH_SHORT).show()
+        }
+    }
+
+    private fun checkAppPermissions(): Boolean {
+        val permission = ContextCompat.checkSelfPermission(
+            this,
+            Manifest.permission.WRITE_EXTERNAL_STORAGE
+        )
+        if (permission != PackageManager.PERMISSION_GRANTED) {
             ActivityCompat.requestPermissions(
                 this,
                 arrayOf(
@@ -113,13 +122,8 @@ class MainActivity : AppCompatActivity() {
                     Manifest.permission.READ_EXTERNAL_STORAGE
                 ), 1
             )
-        } else {
-            val rootView = window.decorView.findViewById<View>(android.R.id.content)
-            val bitmap = takeScreenshot(rootView)
-            if (bitmap != null) {
-                storeScreenshot(bitmap, "Screenshot1")
-            }
         }
+        return permission == PackageManager.PERMISSION_GRANTED
     }
 
     private fun takeScreenshot(rootView: View): Bitmap? {
@@ -135,47 +139,27 @@ class MainActivity : AppCompatActivity() {
         return bitmap
     }
 
-    private fun storeScreenshot(bitmap: Bitmap, filename: String) {
-        var dirPath = applicationContext.getExternalFilesDir(null).toString()
-        val dir = File(dirPath)
-        if (!dir.exists()) {
-            dir.mkdirs()
-        }
-        val file = File(dirPath, filename)
-        try {
-            File(dirPath, "$filename.png").writeBitmap(bitmap, Bitmap.CompressFormat.PNG, 85)
-            shareScreenshot(file)
-        } catch (e: Exception) {
-            e.printStackTrace()
-        }
+    private fun storeScreenshot(bitmap: Bitmap): String {
+        return MediaStore.Images.Media.insertImage(contentResolver, bitmap, imgName(), null)
     }
 
-    private fun shareScreenshot(file: File) {
-        val uri = FileProvider.getUriForFile(
-            applicationContext,
-            application.applicationContext.packageName + ".provider",
-            file
-        )
-        val intent = Intent()
+    private fun imgName(): String {
+        return "Screenshot" + Date().time
+    }
 
+    private fun shareScreenshot(path: String) {
+        val imgToShare: Uri = Uri.parse(path)
+        val intent = Intent()
         intent.action = Intent.ACTION_SEND
         intent.type = "image/*"
         intent.putExtra(Intent.EXTRA_SUBJECT, "My art")
         intent.putExtra(Intent.EXTRA_TEXT, "my beautiful drawing")
-        intent.putExtra(Intent.EXTRA_STREAM, uri)
+        intent.putExtra(Intent.EXTRA_STREAM, imgToShare)
 
         try {
             startActivity(Intent.createChooser(intent, "Share Screenshot"))
         } catch (e: ActivityNotFoundException) {
             Toast.makeText(this, "No app Avaliable", Toast.LENGTH_SHORT).show()
-        }
-
-    }
-
-    private fun File.writeBitmap(bitmap: Bitmap, format: Bitmap.CompressFormat, quality: Int) {
-        outputStream().use { out ->
-            bitmap.compress(format, quality, out)
-            out.flush()
         }
     }
 }

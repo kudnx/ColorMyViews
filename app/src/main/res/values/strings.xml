@@ -11,4 +11,6 @@
     <string name="yellow">Yellow</string>
     <string name="red">Red</string>
     <string name="green">Green</string>
+    <string name="ask_permissions">Você não possui permissão necessária a essa tarefa.</string>
+    <string name="screenshot_description">Colors my views Screenshot</string>
 </resources>
